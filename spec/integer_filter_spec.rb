@@ -23,6 +23,20 @@ describe "Mutations::IntegerFilter" do
     assert_equal nil, errors
   end
 
+  it "considers empty strings to be nil" do
+    f = Mutations::IntegerFilter.new
+    filtered, errors = f.filter("")
+    assert_equal nil, filtered
+    assert_equal nil, errors
+  end
+
+  it "considers empty strings to be invalid" do
+    f = Mutations::IntegerFilter.new(:empty => false)
+    filtered, errors = f.filter("")
+    assert_equal "", filtered
+    assert_equal :integer, errors
+  end
+
   it "doesnt't allow other strings, nor does it allow random objects or symbols" do
     f = Mutations::IntegerFilter.new
     ["zero","a1", {}, [], Object.new, :d].each do |thing|

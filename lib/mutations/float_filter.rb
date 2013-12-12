@@ -2,6 +2,7 @@ module Mutations
   class FloatFilter < AdditionalFilter
     @default_options = {
       :nils => false,       # true allows an explicit nil to be valid. Overrides any other options
+      :empty => true,       # true allows empty string and promotes to nil, false rejects empty strings as non-numeric
       :min => nil,          # lowest value, inclusive
       :max => nil           # highest value, inclusive
     }
@@ -20,6 +21,8 @@ module Mutations
           data = data.to_f
         elsif data.is_a?(Fixnum)
           data = data.to_f
+        elsif data == "" && options[:empty]
+          return [nil, nil]
         else
           return [data, :float]
         end

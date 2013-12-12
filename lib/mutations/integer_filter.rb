@@ -2,6 +2,7 @@ module Mutations
   class IntegerFilter < AdditionalFilter
     @default_options = {
       :nils => false,       # true allows an explicit nil to be valid. Overrides any other options
+      :empty => true,       # true allows empty string and promotes to nil, false rejects empty strings as non-numeric
       :min => nil,          # lowest value, inclusive
       :max => nil,          # highest value, inclusive
       :in => nil            # Can be an array like %w(3 4 5)
@@ -19,6 +20,8 @@ module Mutations
       if !data.is_a?(Fixnum)
         if data.is_a?(String) && data =~ /^-?\d/
           data = data.to_i
+        elsif data == "" && options[:empty]
+          return [nil, nil]
         else
           return [data, :integer]
         end

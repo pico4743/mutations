@@ -44,6 +44,20 @@ describe "Mutations::FloatFilter" do
     assert_equal nil, errors
   end
 
+  it "considers empty strings to be nil" do
+    f = Mutations::FloatFilter.new
+    filtered, errors = f.filter("")
+    assert_equal nil, filtered
+    assert_equal nil, errors
+  end
+
+  it "considers empty strings to be invalid" do
+    f = Mutations::FloatFilter.new(:empty => false)
+    filtered, errors = f.filter("")
+    assert_equal "", filtered
+    assert_equal :float, errors
+  end
+
   it "doesnt't allow other strings, nor does it allow random objects or symbols" do
     f = Mutations::FloatFilter.new
     ["zero","a1", {}, [], Object.new, :d].each do |thing|
