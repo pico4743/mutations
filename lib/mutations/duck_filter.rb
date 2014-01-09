@@ -15,7 +15,7 @@ module Mutations
 
       # Ensure the data responds to each of the methods
       Array(options[:methods]).each do |method|
-        return [data, :duck] unless data.respond_to?(method)
+        return [data, :duck] if !data.respond_to?(method) && data.method(method).nil?
       end
 
       # We win, it's valid!
