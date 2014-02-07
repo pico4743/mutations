@@ -26,7 +26,7 @@ describe "Mutations::IntegerFilter" do
   it "considers empty strings to be nil" do
     f = Mutations::IntegerFilter.new
     filtered, errors = f.filter("")
-    assert_equal nil, filtered
+    assert_equal "", filtered
     assert_equal nil, errors
   end
 
