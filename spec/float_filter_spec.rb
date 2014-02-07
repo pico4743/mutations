@@ -47,7 +47,7 @@ describe "Mutations::FloatFilter" do
   it "considers empty strings to be nil" do
     f = Mutations::FloatFilter.new
     filtered, errors = f.filter("")
-    assert_equal nil, filtered
+    assert_equal "", filtered
     assert_equal nil, errors
   end
 
