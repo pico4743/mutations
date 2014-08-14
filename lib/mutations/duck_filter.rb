@@ -14,8 +14,12 @@ module Mutations
       end
 
       # Ensure the data responds to each of the methods
-      Array(options[:methods]).each do |method|
-        return [data, :duck] if !data.respond_to?(method) && data.method(method).nil?
+      begin
+        Array(options[:methods]).each do |method|
+          return [data, :duck] if !data.respond_to?(method) && data.method(method).nil?
+        end
+      rescue NameError
+        return [data, :duck]
       end
 
       # We win, it's valid!
