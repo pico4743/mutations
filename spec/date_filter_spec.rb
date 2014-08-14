@@ -135,6 +135,22 @@ describe "Mutations::DateFilter" do
     assert_equal nil, errors
   end
 
+  it "allows the use of empty string when specified" do
+    f = Mutations::DateFilter.new(:empty => true)
+    filtered, errors = f.filter("")
+
+    assert_equal "", filtered
+    assert_equal nil, errors
+  end
+
+  it "doesn't allow the use of empty string when specified" do
+    f = Mutations::DateFilter.new(:empty => false)
+    filtered, errors = f.filter("")
+
+    assert_equal nil, filtered
+    assert_equal :date, errors
+  end
+
   it "doesn't allow non-existing dates" do
     date_string = "1, 20, 2013"
     f = Mutations::DateFilter.new
