@@ -2,6 +2,7 @@ module Mutations
   class DateFilter < AdditionalFilter
     @default_options = {
       :nils => false,       # true allows an explicit nil to be valid. Overrides any other options
+      :empty => false,       # true allows empty string, false rejects empty strings as non-numeric
       :format => nil,       # If nil, Date.parse will be used for coercsion. If something like "%Y-%m-%d", Date.strptime is used
       :after => nil,        # A date object, representing the minimum date allowed, inclusive
       :before => nil        # A date object, representing the maximum date allowed, inclusive
@@ -18,6 +19,9 @@ module Mutations
         actual_date = data
       elsif data.is_a?(String)
         begin
+          if data == ""
+            return options[:empty] ? ["", nil] : [nil, :date]
+          end
           actual_date = if options[:format]
             Date.strptime(data, options[:format])
           else
