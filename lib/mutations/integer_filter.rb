@@ -16,8 +16,8 @@ module Mutations
         return [nil, :nils]
       end
 
-      # Ensure it's the correct data type (Fixnum)
-      if !data.is_a?(Fixnum)
+      # Ensure it's the correct data type (Integer)
+      if !data.is_a?(Integer)
         if data.is_a?(String) && data =~ /^-?\d/
           data = data.to_i
         elsif data == "" && options[:empty]

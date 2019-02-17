@@ -21,7 +21,7 @@ module Mutations
         return [data, :file] unless data.respond_to?(method)
       end
 
-      if options[:size].is_a?(Fixnum)
+      if options[:size].is_a?(Integer)
         return [data, :size] if data.size > options[:size]
       end
 
